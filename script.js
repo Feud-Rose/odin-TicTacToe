@@ -4,16 +4,26 @@ function createGame () {
     const player1 = {
         name: "Alf",
         marker: "X",
-        wins: 0
+        wins: 00
     }
     const player2 = {
         name: "Bob",
         marker: "O",
-        wins: 0
+        wins: 00
     }
     const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 0}
     const start = document.querySelector(".start");
     const gameBoard = document.querySelector(".gameBoard");
+    const p1ScoreBoard = document.querySelector(".p1Score")
+    const p2ScoreBoard = document.querySelector(".p2Score")
+    
+    function updateScore () {
+        console.log(player1)
+        console.log(player2)
+    p1ScoreBoard.textContent = player1.wins
+    p2ScoreBoard.textContent = player2.wins
+    }
+
   /*coin flip too start*/
   function coinFlip(){
     if (gameData.current === 0) {
@@ -70,12 +80,13 @@ function createGame () {
             if (m+m+m == line1 || m+m+m == line2 || m+m+m == line3 || m+m+m == line4 || m+m+m == line5 || m+m+m == line6 || m+m+m == line7 || m+m+m == line8) {
                 gameData.turn = 0
                 player.wins += 1
-                let goNext = reset()
+                let score = updateScore()
+                
                 console.log(player)
             }
             else if (gameData.turn >= "9") {
                 console.log("draw")
-                let goNext = reset()
+                
                 gameData.turn = 0
             }
 
@@ -119,14 +130,6 @@ function createGame () {
         });
    
 
-
-
-    /* Do I even need */
-    return {
-     markSquare
-    }
-  
-  
 
 
 }
