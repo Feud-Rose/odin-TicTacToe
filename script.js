@@ -1,22 +1,30 @@
 
 
 (function createGameboard () {
-    const gameBoard = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e'}
+    const gameBoard = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":8}
+    console.log(gameBoard)
+
     const player1 = {
         name: "Alf",
-        marker: "X"
+        marker: "X",
+        wins: 0
     }
     const player2 = {
         name: "Bob",
-        marker: "O"
+        marker: "O",
+        wins: 0
     }
 
     const markSquare = (mark, num) => {
         gameBoard[num] = mark
-        console.log(gameBoard)
+        gameBoard.turn += 1
+        console.log(gameBoard) 
+        let gameStatus = gameCheck()
+        console.log(gameStatus)
     }
+    
     console.log(markSquare(player2.marker,0)) 
-    console.log(markSquare(player2.marker,1))
+    console.log(markSquare(player2.marker,5))
     console.log(markSquare(player2.marker,2))   
     
     function gameCheck() {
@@ -29,22 +37,27 @@
         let line7 = gameBoard[1] + gameBoard[4] + gameBoard[7]
         let line8 = gameBoard[2] + gameBoard[5] + gameBoard[8]
         console.log(line1)
-        function checkWinnerX() {
-            if ("XXX" == line1 || "XXX" == line2 || "XXX" == line3 || "XXX" == line4 || "XXX" == line5 || "XXX" == line6 || "XXX" == line7 || "XXX" == line8) {
-            return "X wins"
+
+        function checkWinner(player, m) {
+            if (m+m+m == line1 || m+m+m == line2 || m+m+m == line3 || m+m+m == line4 || m+m+m == line5 || m+m+m == line6 || m+m+m == line7 || m+m+m == line8) {
+                gameBoard.turn = 0
+                player.wins += 1
+                console.log(player)
             }
-        }
-        
-        function checkWinnerO() {
-            if ("OOO" == line1 || "OOO" == line2 || "OOO" == line3 || "OOO" == line4 || "OOO" == line5 || "OOO" == line6 || "OOO" == line7 || "OOO" == line8) {
-            return "O wins"
+            else if (gameBoard.turn >= "9") {
+                console.log("draw")
             }
+
         }
-        let burger = checkWinnerX()
-        let hotdog = checkWinnerO()
-        console.log(burger)
-        console.log(hotdog)
+        let checkP1 = checkWinner(player1,"X")
+        let checkP2 = checkWinner(player2,"O")
+  
     }
-    let taco = gameCheck()
+   
+
+
+
+
+
 
 })()
