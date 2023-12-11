@@ -61,3 +61,19 @@ table {
     background-color: rgb(194, 173, 146);
     
 }
+
+.oMarked {
+    background-color: blue;
+}
+
+.xMarked {
+    background-color: red;
+}
+
+.start {
+    border: 5px solid #1C6EA4;
+    background-color: antiquewhite;
+    font-size: 26px;
+    padding: 5px;
+    max-width: fit-content;
+}

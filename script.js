@@ -11,9 +11,22 @@ function createGame () {
         marker: "O",
         wins: 0
     }
-    const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 1}
-  /* add coin flip and refer to it here*/
+    const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 0}
+    const start = document.querySelector(".start");
+    const gameBoard = document.querySelector(".gameBoard");
+  /*coin flip too start*/
+  function coinFlip(){
+    if (gameData.current === 0) {
+        if (Math.random() < 0.5) {
+            gameData.current = 1
+        }
+        else {
+            gameData.current = 2
+        }
+    }
+    }
     
+
 
     console.log(gameData)
     const markSquare = (mark, num) => {
@@ -26,14 +39,22 @@ function createGame () {
 
     function reset() {
         for(let i = 0; i < 9; i++){
-        gameData[i] = "e"
+            gameData[i] = "e"
+        }
+        for(let i = 0; i < 9; i++){
+            let var1 = document.querySelector('.xMarked')
+            if (var1) {
+                var1.classList.remove('xMarked')
+            console.log(var1)}
+        }
+        for(let i = 0; i < 9; i++){
+            let var2 = document.querySelector('.oMarked')
+            if (var2) {
+            var2.classList.remove('oMarked')}
+            console.log(var2)
         }
     } 
-
-    console.log(markSquare(player2.marker,0)) 
-    console.log(markSquare(player2.marker,5))
-    console.log(markSquare(player2.marker,2))   
-    
+ 
     function gameCheck() {
         let line1 = gameData[0] + gameData[1] + gameData[2]
         let line2 = gameData[0] + gameData[4] + gameData[8]
@@ -64,27 +85,38 @@ function createGame () {
   
     }
 
-    const gameBoard = document.querySelector(".gameBoard");
-    console.log(gameBoard)
     console.log(gameBoard)
     gameBoard.addEventListener ("click", (e) => {
           console.log(e)
+          console.log(gameData)
           let tarPanel = e.target.classList
           console.log(tarPanel)
           let newNum = tarPanel[0].slice(-1)
           console.log(newNum)
-          /* ADD PROPER VARIABLES */
+          
             if(gameData.current === 1) {
                 let move = markSquare(player1.marker,newNum);
+                let newClass = e.target
+                newClass.classList.add('xMarked') 
                 gameData.current = 2
             }
             else if(gameData.current === 2) {
                 let move = markSquare(player2.marker,newNum);
+                let newClass = e.target
+                newClass.classList.add('oMarked') 
                 gameData.current = 1
             }
             
         });
+        
     
+    console.log(start)
+    start.addEventListener ("click", (e) => {
+          console.log(e)
+          let clear = reset()
+          let flip = coinFlip()
+          console.log(gameData)
+        });
    
 
 
