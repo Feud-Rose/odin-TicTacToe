@@ -2,29 +2,47 @@
 
 function createGame () {
     const player1 = {
-        name: "Alf",
+        name: "Player 1",
         marker: "X",
-        wins: 00
+        wins: 0
     }
     const player2 = {
-        name: "Bob",
+        name: "Player 2",
         marker: "O",
-        wins: 00
+        wins: 0
     }
-    const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 0}
+
+    const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 0, "active": 0}
     const start = document.querySelector(".start");
     const gameBoard = document.querySelector(".gameBoard");
     const outputField = document.querySelector(".log")
     const p1ScoreBoard = document.querySelector(".p1Score")
     const p2ScoreBoard = document.querySelector(".p2Score")
+    const editPlayer1 = document.querySelector(".edit1")
+    const editPlayer2 = document.querySelector(".edit2")
     
-    /* add is game active */
-    
+
+    function activeTurnOutput() {
+        if(gameData.active == 1) {
+            if(gameData.current == 1)
+            textOutput("Your turn " + player1.name +"!")
+            else {
+            textOutput("Your turn " + player2.name +"!")
+            }
+        }
+    }
+
+
+
+
+
+
     function updateScore () {
         console.log(player1)
         console.log(player2)
-    p1ScoreBoard.textContent = player1.wins
-    p2ScoreBoard.textContent = player2.wins
+    p1ScoreBoard.textContent = "Wins: " + player1.wins
+    p2ScoreBoard.textContent = "Wins: " + player2.wins
+    start.textContent = "New Game"
     }
 
     function textOutput (str) {
@@ -34,26 +52,23 @@ function createGame () {
 
 
   /*coin flip too start*/
-  function coinFlip(){
-    if (gameData.current === 0) {
-        if (Math.random() < 0.5) {
-            gameData.current = 1
-            let p1Turn = textOutput("Your turn " + player1.name +"!")
-        }
-        else {
-            gameData.current = 2
-            textOutput("Your turn " + player2.name +"!")
+    function coinFlip(){
+        if (gameData.current === 0) {
+            if (Math.random() < 0.5) {
+                gameData.current = 1
+                let playerTurn = activeTurnOutput()
+            }
+            else {
+                gameData.current = 2
+                let playerTurn = activeTurnOutput()
+            }
         }
     }
-    }
 
-
-
-
-    console.log(gameData)
     const markSquare = (mark, num) => {
         gameData[num] = mark
         gameData.turn += 1
+        let playerTurn = activeTurnOutput()
         console.log(gameData) 
         let gameStatus = gameCheck()
         console.log(gameStatus)
@@ -74,7 +89,13 @@ function createGame () {
             if (var2) {
             var2.classList.remove('oMarked')}
             console.log(var2)
+        }   
+        if(gameData.active == 1) {
+            player1.wins = 0   
+            player2.wins = 0  
         }
+        
+        let score = updateScore()
     } 
  
     function gameCheck() {
@@ -93,12 +114,14 @@ function createGame () {
                 gameData.turn = 0
                 player.wins += 1
                 let score = updateScore()
-                
+                gameData.active = 2
+                outputField.textContent = player.name + " Wins!"
                 console.log(player)
             }
             else if (gameData.turn >= "8") {
                 console.log("draw")
                 let drawOutput = textOutput("It's a Draw")
+                gameData.active = 2
                 gameData.turn = 0
             }
 
@@ -114,13 +137,13 @@ function createGame () {
       let classCheck = event[0].slice(0,-1)
         console.log(classCheck)
         let emptyCheck = gameData[num]
-        if (classCheck == "panel" && emptyCheck =="e"){
-        console.log("Yatta")
-        return true
+        let active = gameData.active
+        if (classCheck == "panel" && emptyCheck =="e" && active == 1){
+                return true
+                }
+             return false
         }
-        return false
-    }
-
+    
 
 
 
@@ -134,53 +157,96 @@ function createGame () {
           let newNum = tarPanel[0].slice(-1)
           console.log(newNum)
           let legal = isMoveLegal(tarPanel,newNum)
+            console.log(legal)
          
-         
-         if(legal) {
+          if(legal) {
          
 
-            if(gameData.current === 1) {
+            if(gameData.current == 1) {
                 let move = markSquare(player1.marker,newNum);
                 let newClass = e.target
                 newClass.classList.add('xMarked') 
                 gameData.current = 2
-                let nextTurn = textOutput("Your turn " + player2.name +"!")
+                
             }
-            else if(gameData.current === 2) {
+            else if(gameData.current == 2) {
                 let move = markSquare(player2.marker,newNum);
                 let newClass = e.target
                 newClass.classList.add('oMarked') 
                 gameData.current = 1
-                let nextTurn = textOutput("Your turn " + player1.name +"!")
+                
             }
             }
 
             else {
+                let active = gameData.active
+                if (active == 0) {
+                    outputField.textContent ="Press \"Start\""
+                    return false
+                }
                 let tryAgain= textOutput("Pick an Empty spot")
             }
             
-                  /*  
-
-
-GO no further
-
-
-    
-          */    
+   
         });
         
     
     console.log(start)
     start.addEventListener ("click", (e) => {
-          console.log(e)
-          let clear = reset()
-          let flip = coinFlip()
-          console.log(gameData)
-         /*  start.textContent = "Reset" */
+        console.log(e)
+        let x = gameData.active
+        console.log(x)
+        if (x == 1) {  
+            let clear = reset()
+            gameData.active = "0"
+            gameData.current = 0
+            start.textContent = "Start"
+            console.log('true')
+            
+        }
+        else if (x == 2){
+            let clear = reset()
+            gameData.active = 1
+            gameData.current = 0
+            let flip = coinFlip()
+            start.textContent = "Reset"
+            console.log(gameData)
+        }
+
+
+
+        else if(x == 0) {
+            gameData.active = 1
+            gameData.current = 0
+            let flip = coinFlip()
+            start.textContent = "Reset"
+            console.log("false")
+           
+        }
         });
-   
+ 
+        /* change these too input fields later */
+  
+    function editPlayer(num) {
+        let newName = prompt("Please enter your name:", "Player " + num)
+        return newName
+        }
 
-
+    editPlayer1.addEventListener ("click", (e) => {
+        let newName = editPlayer(1)
+        player1.name = newName
+        let updateName = document.querySelector(".playerName1")
+        console.log(updateName)
+        updateName.textContent = player1.name
+                
+        })
+    editPlayer2.addEventListener ("click", (e) => {
+        let newName = editPlayer(2)
+        player2.name = newName
+        let updateName = document.querySelector(".playerName2")
+        console.log(updateName)
+        updateName.textContent = player2.name
+        })
 
 }
 
