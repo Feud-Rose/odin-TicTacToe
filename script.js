@@ -14,8 +14,11 @@ function createGame () {
     const gameData = {0:'e', 1:'e', 2:'e', 3:'e', 4:'e', 5:'e', 6:'e', 7:'e', 8:'e', "turn":0, "current": 0}
     const start = document.querySelector(".start");
     const gameBoard = document.querySelector(".gameBoard");
+    const outputField = document.querySelector(".log")
     const p1ScoreBoard = document.querySelector(".p1Score")
     const p2ScoreBoard = document.querySelector(".p2Score")
+    
+    /* add is game active */
     
     function updateScore () {
         console.log(player1)
@@ -24,18 +27,27 @@ function createGame () {
     p2ScoreBoard.textContent = player2.wins
     }
 
+    function textOutput (str) {
+        console.log(str)
+        outputField.textContent = str
+    }
+
+
   /*coin flip too start*/
   function coinFlip(){
     if (gameData.current === 0) {
         if (Math.random() < 0.5) {
             gameData.current = 1
+            let p1Turn = textOutput("Your turn " + player1.name +"!")
         }
         else {
             gameData.current = 2
+            textOutput("Your turn " + player2.name +"!")
         }
     }
     }
-    
+
+
 
 
     console.log(gameData)
@@ -84,9 +96,9 @@ function createGame () {
                 
                 console.log(player)
             }
-            else if (gameData.turn >= "9") {
+            else if (gameData.turn >= "8") {
                 console.log("draw")
-                
+                let drawOutput = textOutput("It's a Draw")
                 gameData.turn = 0
             }
 
@@ -96,7 +108,24 @@ function createGame () {
   
     }
 
+
+
+    function isMoveLegal(event, num) {
+      let classCheck = event[0].slice(0,-1)
+        console.log(classCheck)
+        let emptyCheck = gameData[num]
+        if (classCheck == "panel" && emptyCheck =="e"){
+        console.log("Yatta")
+        return true
+        }
+        return false
+    }
+
+
+
+
     console.log(gameBoard)
+
     gameBoard.addEventListener ("click", (e) => {
           console.log(e)
           console.log(gameData)
@@ -104,20 +133,40 @@ function createGame () {
           console.log(tarPanel)
           let newNum = tarPanel[0].slice(-1)
           console.log(newNum)
-          
+          let legal = isMoveLegal(tarPanel,newNum)
+         
+         
+         if(legal) {
+         
+
             if(gameData.current === 1) {
                 let move = markSquare(player1.marker,newNum);
                 let newClass = e.target
                 newClass.classList.add('xMarked') 
                 gameData.current = 2
+                let nextTurn = textOutput("Your turn " + player2.name +"!")
             }
             else if(gameData.current === 2) {
                 let move = markSquare(player2.marker,newNum);
                 let newClass = e.target
                 newClass.classList.add('oMarked') 
                 gameData.current = 1
+                let nextTurn = textOutput("Your turn " + player1.name +"!")
+            }
+            }
+
+            else {
+                let tryAgain= textOutput("Pick an Empty spot")
             }
             
+                  /*  
+
+
+GO no further
+
+
+    
+          */    
         });
         
     
@@ -127,6 +176,7 @@ function createGame () {
           let clear = reset()
           let flip = coinFlip()
           console.log(gameData)
+         /*  start.textContent = "Reset" */
         });
    
 

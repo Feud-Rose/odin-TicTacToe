@@ -48,36 +48,53 @@ table {
 }
 
 body {
+    padding: 16px;   
+}
+
+#gameTicTacToe {
+    width: fit-content;
+    border-color: #161853;
+    border-style: solid;
+    border-width: 4px;
+    background-color: #e9d8dc;
+    padding: 4px;
     display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 .gameBoard {
-    border: 5px solid #1C6EA4;
+    border: 5px solid 161853;
     display: grid;
     grid-template-columns: 100px 100px 100px;
     grid-template-rows: 100px 100px 100px;
     gap: 2px;
     width: fit-content;
+    margin: auto;
+
 }
 [class*="panel"] {
-    border: 5px solid #1C6EA4;
-    background-color: rgb(194, 173, 146);
+    border: 5px solid #161853;
+    background-color: #FAEDF0;
     
 }
 
 .oMarked {
-    background-color: blue;
+    background-image: url(images/circle.svg);
+    background-position: center;
 }
 
 .xMarked {
-    background-color: red;
+    background-image: url(images/x.svg);
+    background-position: center;
 }
 
 
 .sidePanel {   
-    border: 5px solid #1C6EA4;
-    color: rgb(74, 245, 188);
-    background-color: rgb(5, 4, 3);
+    border: 5px solid #161853;
+    color: #FAEDF0;
+    background-color: #161853;
+    box-shadow: inset 0px 1px 40px 50px rgba(250,237,240,0.18);
     min-width: 200px;
     font-size: 22px;
     padding: 8px;
@@ -89,6 +106,10 @@ body {
 .score {
     padding: 8px;
     margin: 8px;
+}
+
+.score div {
+    padding: 0.2em;
 }
 
 .log { 
