@@ -38,15 +38,12 @@ function createGame () {
 
 
     function updateScore () {
-        console.log(player1)
-        console.log(player2)
-    p1ScoreBoard.textContent = "Wins: " + player1.wins
-    p2ScoreBoard.textContent = "Wins: " + player2.wins
+        p1ScoreBoard.textContent = "Wins: " + player1.wins
+        p2ScoreBoard.textContent = "Wins: " + player2.wins
     start.textContent = "New Game"
     }
 
     function textOutput (str) {
-        console.log(str)
         outputField.textContent = str
     }
 
@@ -68,10 +65,8 @@ function createGame () {
     const markSquare = (mark, num) => {
         gameData[num] = mark
         gameData.turn += 1
-        let playerTurn = activeTurnOutput()
-        console.log(gameData) 
+        let playerTurn = activeTurnOutput() 
         let gameStatus = gameCheck()
-        console.log(gameStatus)
     }
 
     function reset() {
@@ -82,13 +77,13 @@ function createGame () {
             let var1 = document.querySelector('.xMarked')
             if (var1) {
                 var1.classList.remove('xMarked')
-            console.log(var1)}
+            }
         }
         for(let i = 0; i < 9; i++){
             let var2 = document.querySelector('.oMarked')
             if (var2) {
-            var2.classList.remove('oMarked')}
-            console.log(var2)
+            var2.classList.remove('oMarked')
+            }
         }   
         if(gameData.active == 1) {
             player1.wins = 0   
@@ -143,11 +138,6 @@ function createGame () {
                 }
              return false
         }
-    
-
-
-
-    console.log(gameBoard)
 
     gameBoard.addEventListener ("click", (e) => {
           console.log(e)
@@ -190,19 +180,15 @@ function createGame () {
    
         });
         
-    
-    console.log(start)
     start.addEventListener ("click", (e) => {
-        console.log(e)
+        
         let x = gameData.active
-        console.log(x)
+
         if (x == 1) {  
             let clear = reset()
             gameData.active = "0"
             gameData.current = 0
-            start.textContent = "Start"
-            console.log('true')
-            
+            start.textContent = "Start" 
         }
         else if (x == 2){
             let clear = reset()
@@ -210,7 +196,6 @@ function createGame () {
             gameData.current = 0
             let flip = coinFlip()
             start.textContent = "Reset"
-            console.log(gameData)
         }
 
 
@@ -220,7 +205,6 @@ function createGame () {
             gameData.current = 0
             let flip = coinFlip()
             start.textContent = "Reset"
-            console.log("false")
            
         }
         });
@@ -236,7 +220,6 @@ function createGame () {
         let newName = editPlayer(1)
         player1.name = newName
         let updateName = document.querySelector(".playerName1")
-        console.log(updateName)
         updateName.textContent = player1.name
                 
         })
@@ -244,7 +227,6 @@ function createGame () {
         let newName = editPlayer(2)
         player2.name = newName
         let updateName = document.querySelector(".playerName2")
-        console.log(updateName)
         updateName.textContent = player2.name
         })
 
