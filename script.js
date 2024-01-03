@@ -113,7 +113,7 @@ function createGame () {
                 outputField.textContent = player.name + " Wins!"
                 console.log(player)
             }
-            else if (gameData.turn >= "8") {
+            else if (gameData.turn > "8") {
                 console.log("draw")
                 let drawOutput = textOutput("It's a Draw")
                 gameData.active = 2
